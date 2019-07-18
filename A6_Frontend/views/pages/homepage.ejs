@@ -1,0 +1,93 @@
+
+<style type="text/css">
+  body,html{
+    height: 100%;
+  }
+    #mainDiv{
+       background-image: linear-gradient(#C04848, #480048);
+       height: 100%;
+       font-family:Arial;
+    }
+    #subDiv{
+      border:2px solid;
+      padding: 30px;
+      margin-top: 50px;
+      border-radius: 13px;
+        background-image: linear-gradient(#ECE9E6, #FFFFFF);
+    }
+    #btn{
+      font-size: 18px;
+    }
+  </style>
+  <script type="text/javascript">
+    function add(){
+      var number1=document.getElementById('num1').value;
+      var number2=document.getElementById('num2').value;
+      var reg = /^\d+$/;
+      var url="";
+      if(!number1 || !number2){  
+        alert("Please enter some numbers");
+      }
+      else if(number1.match(reg) && number2.match(reg)){
+          $.ajax({
+            url:url,
+            type:"GET",
+            data: { number1: number1, number1: number2 },
+            success:function(result){
+              console.log(result);
+              $("#result").html();
+            },
+            error:function(error){
+              console.log("Error ${error}")
+            }
+          })
+        }
+        else{
+          alert("Please enter valid numbers");
+      
+        }
+      
+      var today = new Date();
+      var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+      var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      var dateTime = date+' '+time;
+     $('#timestamp').html("<b>"+dateTime+"</b>");
+    }
+  </script>
+  <div class="container-fluid" id="mainDiv">
+    <div class="col-lg-4">
+      
+    </div>
+    
+  
+    <div class="col-lg-4" id="subDiv">
+     <div>
+       <center><h1>Add two numbers</h1></center>
+     </div> 
+     
+      <label for="num1">Number 1:</label>
+      <input type="text" class="form-control" id="num1" placeholder="Enter first number"/>
+     <br/>
+    
+      <label for="num2">Number 2:</label>
+      <input type="text" class="form-control" id="num2" placeholder="Enter second number">
+      <br/>
+    <center><button type="button" class="btn btn-primary" id="btn" onclick="add()">Add</button></center>
+    <br/>
+    <h3>Timestamp:</h3>
+     <div id="timestamp">
+         
+    </div>
+    <div id="result">
+
+    </div>
+    </div>
+  
+ 
+  <div class="col-lg-4">
+      
+  </div>
+</div>
+  
+   
+  
