@@ -4,7 +4,8 @@
     height: 100%;
   }
     #mainDiv{
-       background-image: linear-gradient(#C04848, #480048);
+       /* background-image: linear-gradient(#C04848, #480048); */
+       background-color: #FFFFFF;
        height: 100%;
        font-family:Arial;
     }
@@ -13,60 +14,86 @@
       padding: 30px;
       margin-top: 50px;
       border-radius: 13px;
-        background-image: linear-gradient(#ECE9E6, #FFFFFF);
+      background-image: linear-gradient(#ECE9E6, #FFFFFF);
     }
     #btn{
       font-size: 18px;
     }
   </style>
   <script type="text/javascript">
+
     function add(){
       var n=document.getElementById("n").value;  
       var url="";
       var number1=5;
       var number2=15;
-      $("table tbody").append("<tr><td>hello</td><td>hello</td><td>hello</td><td>hello</td></tr>");
+      // $("table tbody").append("<tr><td>hello</td><td>hello</td><td>hello</td><td>hello</td></tr>");
       var option=$('#dropdown').val();
       if(option==0){
         alert("Please select a processing option");
       }
       else{
         if(option==1){
-          alert("without");
+          var count = 1;
+          url="https://non-scaling-app.herokuapp.com/Api/pride?firstNumber="+number1+"&secondNumber="+number2;
+                for (i=0; i<n;i++)
+                {
+              $.ajax({
+                  url:url,
+                  type:"GET",
+                  success:function(result){
+                    console.log(result);
+                    $("table tbody").append("<tr><td>"+count+"</td><td>"+result.startTime+"</td><td>"+result.endTime+"</td><td>"+result.timeDifference+"</td><td>"+result.sum+"</td><td>No Scaling/Load Balancing</td></tr>");
+                    count = count +1;
+                  },
+                  error:function(error){
+                    console.log("Error ${error}")
+                  }
+                });
+            }
         }
         else if(option==2){
-          alert("With");
+          var count = 1;
+          url="https://assignment6-scaling-load.herokuapp.com/Api/pride?firstNumber="+number1+"&secondNumber="+number2;
+          for (current=0; current<n;current++)
+            {
+          
+              $.ajax({
+                  url:url,
+                  type:"GET",
+                  success:function(result){
+                    $("table tbody").append("<tr><td>"+count+"</td><td>"+result.startTime+"</td><td>"+result.endTime+"</td><td>"+result.timeDifference+"</td><td>"+result.sum+"</td><td>With Scaling/Load Balancing</td></tr>");
+                    count = count +1;
+                  },
+                  error:function(error){
+                    console.log("Error ${error}")
+                  }
+                });
+            }
         }
       }
-      for (i=0; i<n;i++)
-      {
-        $.ajax({
-            url:url,
-            type:"GET",
-            data: { number1: number1, number1: number2 },
-            success:function(result){
-              console.log(result);
-              $("#result").html();
-            },
-            error:function(error){
-              console.log("Error ${error}")
-            }
-          });
-      }
+     
       var today = new Date();
       var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
       var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
       var dateTime = date+' '+time;
-     $('#timestamp').html("<b>"+dateTime+"</b>");
+      $('#timestamp').html("<b>"+dateTime+"</b>");
+      $('#load').html("<b>"+n+"</b>");
     }
+
+    $(document).ready(function(){
+      $('.clear-table').click(function(){
+        $(".table td").remove();
+      })
+    })
   </script>
   <div class="container-fluid" id="mainDiv">
-    <div class="col-lg-3">
+    <div class="col-lg-2">
       
     </div>
     
   
-    <div class="col-lg-6" id="subDiv">
+    <div class="col-lg-8" id="subDiv">
      <div>
        <center><h1>Add two numbers</h1></center><br/>
      </div> 
@@ -87,14 +114,19 @@
       <label for="num2">Number 2:</label>
       15
       <br/>
-    <center><button type="button" class="btn btn-primary" id="btn" onclick="add()">Start the Add loop</button></center>
+    <center><button type="button" class="btn btn-primary" id="btn" onclick="add()">Start the Add loop</button></center><br/>
+    <center><button type="button" class="btn btn-primary clear-table" id="clear" onclick="clear()">Clear Table</button></center>
     <br/>
-    <h3>Timestamp:</h3>
+    <h3>Request Timestamp:</h3>
        <div id="timestamp">
          
       </div>
+      <h3>Load(Number of Requests):</h3>
+      <div id="load">
+        
+     </div>
       <br/>
-    <div id="result">
+    <div>
         <table class="table table-dark">
             <thead>
               <tr>
@@ -102,22 +134,19 @@
                 <th scope="col">Start Time</th>
                 <th scope="col">End Time</th>
                 <th scope="col">Total processing time</th>
+                <th scope="col">Sum</th>
+                <th scope="col">Processing option</th>
               </tr>
             </thead>
             <tbody>
-              <!-- <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr> -->
+     
             </tbody>
           </table>
     </div>
     </div>
   
  
-  <div class="col-lg-3">
+  <div class="col-lg-2">
       
   </div>
 </div>
