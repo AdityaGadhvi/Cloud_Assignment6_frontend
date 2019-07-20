@@ -27,6 +27,10 @@
       var url="";
       var number1=5;
       var number2=15;
+      var avgerageDifference=0;
+      var count = 1;
+      var sum=0;
+      var currentDifference=0;
       // $("table tbody").append("<tr><td>hello</td><td>hello</td><td>hello</td><td>hello</td></tr>");
       var option=$('#dropdown').val();
       if(option==0){
@@ -34,7 +38,7 @@
       }
       else{
         if(option==1){
-          var count = 1;
+      
           url="https://non-scaling-app.herokuapp.com/Api/pride?firstNumber="+number1+"&secondNumber="+number2;
                 for (i=0; i<n;i++)
                 {
@@ -43,14 +47,17 @@
                   type:"GET",
                   success:function(result){
                     console.log(result);
-                    $("table tbody").append("<tr><td>"+count+"</td><td>"+result.startTime+"</td><td>"+result.endTime+"</td><td>"+result.timeDifference+"</td><td>"+result.sum+"</td><td>No Scaling/Load Balancing</td></tr>");
+                    currentDifference=parseFloat(result.timeDifferenceInSeconds);
+                    sum+=currentDifference;
+                    $('#avg').html("<b>"+sum/n+"</b>");
+                    $("table tbody").append("<tr><td>"+count+"</td><td>"+result.startTime+"</td><td>"+result.endTime+"</td><td>"+result.timeDifference+"</td><td>"+result.sum+"</td><td>No Scaling/Load Balancing</td><td>"+result.timeDifferenceInSeconds+"</td></tr>");
                     count = count +1;
                   },
                   error:function(error){
                     console.log("Error ${error}")
                   }
                 });
-            }
+                }
         }
         else if(option==2){
           var count = 1;
@@ -62,7 +69,10 @@
                   url:url,
                   type:"GET",
                   success:function(result){
-                    $("table tbody").append("<tr><td>"+count+"</td><td>"+result.startTime+"</td><td>"+result.endTime+"</td><td>"+result.timeDifference+"</td><td>"+result.sum+"</td><td>With Scaling/Load Balancing</td></tr>");
+                    currentDifference=parseFloat(result.timeDifferenceInSeconds);
+                    sum+=currentDifference;
+                    $('#avg').html("<b>"+sum/n+"</b>");
+                    $("table tbody").append("<tr><td>"+count+"</td><td>"+result.startTime+"</td><td>"+result.endTime+"</td><td>"+result.timeDifference+"</td><td>"+result.sum+"</td><td>With Scaling/Load Balancing</td><td>"+result.timeDifferenceInSeconds+"</td></tr>");
                     count = count +1;
                   },
                   error:function(error){
@@ -88,12 +98,12 @@
     })
   </script>
   <div class="container-fluid" id="mainDiv">
-    <div class="col-lg-2">
+    <div class="col-lg-1">
       
     </div>
     
   
-    <div class="col-lg-8" id="subDiv">
+    <div class="col-lg-10" id="subDiv">
      <div>
        <center><h1>Add two numbers</h1></center><br/>
      </div> 
@@ -125,6 +135,10 @@
       <div id="load">
         
      </div>
+     <h3>Average difference in seconds:</h3>
+     <div id="avg">
+        
+      </div>
       <br/>
     <div>
         <table class="table table-dark">
@@ -136,6 +150,7 @@
                 <th scope="col">Total processing time</th>
                 <th scope="col">Sum</th>
                 <th scope="col">Processing option</th>
+                <th scope="col">Time Difference in seconds</th>
               </tr>
             </thead>
             <tbody>
@@ -146,7 +161,7 @@
     </div>
   
  
-  <div class="col-lg-2">
+  <div class="col-lg-1">
       
   </div>
 </div>
