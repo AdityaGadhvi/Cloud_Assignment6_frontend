@@ -21,15 +21,26 @@
   </style>
   <script type="text/javascript">
     function add(){
-      var number1=document.getElementById('num1').value;
-      var number2=document.getElementById('num2').value;
-      var reg = /^\d+$/;
+      var n=document.getElementById("n").value;  
       var url="";
-      if(!number1 || !number2){  
-        alert("Please enter some numbers");
+      var number1=5;
+      var number2=15;
+      $("table tbody").append("<tr><td>hello</td><td>hello</td><td>hello</td><td>hello</td></tr>");
+      var option=$('#dropdown').val();
+      if(option==0){
+        alert("Please select a processing option");
       }
-      else if(number1.match(reg) && number2.match(reg)){
-          $.ajax({
+      else{
+        if(option==1){
+          alert("without");
+        }
+        else if(option==2){
+          alert("With");
+        }
+      }
+      for (i=0; i<n;i++)
+      {
+        $.ajax({
             url:url,
             type:"GET",
             data: { number1: number1, number1: number2 },
@@ -40,13 +51,8 @@
             error:function(error){
               console.log("Error ${error}")
             }
-          })
-        }
-        else{
-          alert("Please enter valid numbers");
-      
-        }
-      
+          });
+      }
       var today = new Date();
       var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
       var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -55,36 +61,63 @@
     }
   </script>
   <div class="container-fluid" id="mainDiv">
-    <div class="col-lg-4">
+    <div class="col-lg-3">
       
     </div>
     
   
-    <div class="col-lg-4" id="subDiv">
+    <div class="col-lg-6" id="subDiv">
      <div>
-       <center><h1>Add two numbers</h1></center>
+       <center><h1>Add two numbers</h1></center><br/>
      </div> 
-     
+     <div>
+       <b>Select your processing option:</b>
+      <select id="dropdown">
+        <option value="0">Please Select</option>
+        <option value="1">Without Scaling and Load balancing</option>
+        <option value="2">With Scaling and Load balancing</option>
+      </select>
+     </div><br/>
+     <b>Enter the number of itterations:</b>
+     <input type="number" id="n"/><br/><br/>
       <label for="num1">Number 1:</label>
-      <input type="text" class="form-control" id="num1" placeholder="Enter first number"/>
+      5
      <br/>
     
       <label for="num2">Number 2:</label>
-      <input type="text" class="form-control" id="num2" placeholder="Enter second number">
+      15
       <br/>
-    <center><button type="button" class="btn btn-primary" id="btn" onclick="add()">Add</button></center>
+    <center><button type="button" class="btn btn-primary" id="btn" onclick="add()">Start the Add loop</button></center>
     <br/>
     <h3>Timestamp:</h3>
-     <div id="timestamp">
+       <div id="timestamp">
          
-    </div>
+      </div>
+      <br/>
     <div id="result">
-
+        <table class="table table-dark">
+            <thead>
+              <tr>
+                <th scope="col">Request-Id</th>
+                <th scope="col">Start Time</th>
+                <th scope="col">End Time</th>
+                <th scope="col">Total processing time</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr> -->
+            </tbody>
+          </table>
     </div>
     </div>
   
  
-  <div class="col-lg-4">
+  <div class="col-lg-3">
       
   </div>
 </div>
